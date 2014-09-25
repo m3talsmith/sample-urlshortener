@@ -10,6 +10,15 @@ class UrlsController < ApplicationController
     render json: short_url.to_json
   end
 
+  def show
+    short_url = ShortUrl.find_by_short_url(params[:id])
+    if short_url
+      redirect_to short_url.url, status: '301' and return
+    else
+      render text: MISSING_SHORT_URL, status: '404' and return
+    end
+  end
+
   private
   
   def requires_url
