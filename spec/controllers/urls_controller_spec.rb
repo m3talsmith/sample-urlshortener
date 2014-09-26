@@ -82,26 +82,4 @@ RSpec.describe UrlsController, :type => :controller do
       end
     end
   end
-
-  describe 'PUT' do
-    # it_behaves_like 'requires a valid short url'
-    # it_behaves_like 'requires a token'
-
-    describe 'with no url' do
-      it 'responds with a MissingURL error'
-    end
-
-    describe 'with a valid token and url' do
-      it 'responds with an updated short url'
-    end
-  end
-
-  describe 'DELETE' do
-    # it_behaves_like 'requires a valid short url'
-    # it_behaves_like 'requires a token'
-
-    describe 'with a valid token and short url' do
-      it 'responds with a ShortUrlDeleted message'
-    end
-  end
 end
