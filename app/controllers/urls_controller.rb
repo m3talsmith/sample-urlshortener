@@ -1,7 +1,6 @@
 class UrlsController < ApplicationController
   include UrlsHelper
 
-  layout false
   before_filter :requires_url, only: [:create]
   before_filter :validates_token
 

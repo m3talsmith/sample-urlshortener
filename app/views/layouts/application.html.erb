@@ -1,14 +1,63 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <title>Therealreal</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
+  <head>
+    <title>Url Shortener Sample</title>
+    <%= javascript_include_tag 'application' %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+  
+    <h1>Url Shortener</h1>
+    <h2>A sample</h2>
 
-<%= yield %>
+    <div id="content"></div>
+    <form id="model">
+      <label>
+        Url
+        <input type="text" name="url" />
+      </label>
+      <input type="submit" value="Shorten" />
+    </form>
 
-</body>
+    <script>
+      function shortenUrl (url, callback) {
+        var csrf = $("meta[name='csrf-token']")[0].content;
+
+        $.post("/urls", {authenticity_token: csrf, url: url})
+          .done(function (data) {
+            console.log(data);
+            if(callback) callback("<strong>Short Url:</strong>" + data.short_url);
+          })
+          .fail(function (data) {
+            console.log(data);
+            if(callback) callback(data);
+          });
+      }
+
+      function clearForm () {
+        $("#model")[0].reset();
+      }
+
+      function captureForm () {
+        var model   = $("#model"),
+            content = $("#content");
+
+        model.on("submit", function (e) {
+          e.preventDefault();
+
+          var url = model.find("[name='url']")[0].value;
+
+          shortenUrl(url, function (newContent) {
+            clearForm();
+            content.html(newContent);
+          });
+        })
+      }
+
+      $(document).ready(function () {
+        captureForm();
+      });
+    </script>
+  
+  </body>
 </html>
