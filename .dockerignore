@@ -1,6 +1,0 @@
-*.sw*
-.DS_Store
-log/
-tmp/
-.git
-.gitignore
