@@ -21,15 +21,15 @@
 
     <script>
       function shortenUrl (url, callback) {
-        var csrf = $("meta[name='csrf-token']")[0].content;
+        var csrf    = $("meta[name='csrf-token']")[0].content,
+            baseUrl = window.location.origin;
 
         $.post("/urls", {authenticity_token: csrf, url: url})
           .done(function (data) {
-            console.log(data);
-            if(callback) callback("<strong>Short Url:</strong>" + data.short_url);
+            var shortUrl = baseUrl + "/" + data.short_url;
+            if(callback) callback("<strong>Short Url:</strong> <a href='" + shortUrl + "' target='_blank'>" + shortUrl + "</a>");
           })
           .fail(function (data) {
-            console.log(data);
             if(callback) callback(data);
           });
       }
